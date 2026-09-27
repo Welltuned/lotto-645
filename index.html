@@ -16,6 +16,22 @@
         <h1 id="title">오늘의 행운 번호</h1>
         <p class="subtitle">버튼 한 번으로 행운의 조합 다섯 게임을 만나보세요.</p>
       </header>
+      <div class="lucky-picker" aria-label="행운의 숫자 설정">
+        <div class="lucky-picker-header">
+          <label for="lucky-number" class="lucky-picker-label">
+            <span class="star-icon">★</span> 나만의 행운의 숫자 (1~45)
+          </label>
+          <span class="lucky-tag">3게임 이상 보장</span>
+        </div>
+        <div class="lucky-picker-controls">
+          <div class="input-wrap">
+            <input type="number" id="lucky-number" min="1" max="45" placeholder="예: 7" aria-describedby="lucky-guide">
+          </div>
+          <button id="lucky-random" type="button" class="lucky-btn-sub">✦ 랜덤 번호</button>
+          <button id="lucky-clear" type="button" class="lucky-btn-sub clear">초기화</button>
+        </div>
+        <p id="lucky-guide" class="lucky-guide">ⓘ &nbsp; 입력한 행운의 숫자는 5게임 중 <strong>3게임 이상</strong>에 반드시 포함됩니다.</p>
+      </div>
       <div id="results" class="results" aria-live="polite" aria-label="생성된 로또 번호"></div>
       <div class="actions"><button id="generate" type="button">✦ &nbsp; 행운 번호 5게임 생성하기</button><p class="hint">ⓘ &nbsp; 각 게임은 1부터 45까지 숫자 중 여섯 개를 무작위로 뽑아요.</p></div>
     </section>

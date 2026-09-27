@@ -12,21 +12,46 @@
     .eyebrow { color:#c8c5fa; font-size:11px; letter-spacing:.2em; font-weight:700; }
     h1 { margin:13px 0 10px; font-size:clamp(30px,7vw,43px); letter-spacing:-.055em; line-height:1.14; }
     .subtitle { color:#c0c4d2; margin:0; font-size:14px; line-height:1.7; }
+    
+    .lucky-picker { margin: 0 0 20px; padding: 16px 18px; border: 1px solid #ffffff1c; background: #ffffff0a; border-radius: 18px; backdrop-filter: blur(10px); }
+    .lucky-picker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .lucky-picker-label { font-size: 13px; font-weight: 700; color: #f0f2fa; display: flex; align-items: center; gap: 6px; }
+    .star-icon { color: #ffd700; font-size: 14px; filter: drop-shadow(0 0 6px rgba(255,215,0,0.6)); }
+    .lucky-tag { font-size: 11px; font-weight: 700; color: #ffe27c; background: #ffe27c1a; border: 1px solid #ffe27c38; border-radius: 20px; padding: 3px 9px; letter-spacing: -.02em; }
+    .lucky-picker-controls { display: flex; gap: 8px; align-items: center; }
+    .input-wrap { flex: 1; min-width: 90px; }
+    #lucky-number { width: 100%; height: 42px; padding: 0 14px; background: rgba(14, 18, 28, 0.65); border: 1px solid #ffffff2b; border-radius: 12px; color: #fff; font-size: 15px; font-weight: 700; outline: none; transition: border-color .2s, box-shadow .2s; font-family: inherit; }
+    #lucky-number:focus { border-color: #a56bdc; box-shadow: 0 0 0 3px rgba(165,107,220,0.3); }
+    #lucky-number::placeholder { color: #767d93; font-weight: 500; font-size: 13px; }
+    #lucky-number::-webkit-inner-spin-button, #lucky-number::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    #lucky-number { -moz-appearance: textfield; }
+    .lucky-btn-sub { width: auto; min-height: 42px; height: 42px; padding: 0 14px; border: 1px solid #ffffff24; border-radius: 12px; background: #ffffff14; color: #e7e9f3; font-size: 12.5px; font-weight: 650; cursor: pointer; transition: transform .15s, background .2s, border-color .2s; white-space: nowrap; box-shadow: none; display: inline-flex; align-items: center; justify-content: center; }
+    .lucky-btn-sub:hover { transform: translateY(-1px); background: #ffffff22; border-color: #ffffff40; color: #fff; }
+    .lucky-btn-sub:active { transform: translateY(0); }
+    .lucky-btn-sub.clear { background: transparent; border-color: #ffffff18; color: #9aa1b5; }
+    .lucky-btn-sub.clear:hover { background: rgba(255, 90, 90, 0.14); border-color: rgba(255, 90, 90, 0.35); color: #ff9d9d; }
+    .lucky-guide { margin: 10px 0 0; color: #aeb3c3; font-size: 11px; line-height: 1.5; }
+    .lucky-guide strong { color: #ffe27c; font-weight: 700; }
+
     .results { display:grid; gap:10px; }
-    .game { display:grid; grid-template-columns:76px 1fr; align-items:center; gap:12px; padding:12px 14px; min-height:68px; border:1px solid #ffffff19; background:#ffffff0b; border-radius:18px; animation:rise .45s both; }
+    .game { display:grid; grid-template-columns:76px 1fr; align-items:center; gap:12px; padding:12px 14px; min-height:68px; border:1px solid #ffffff19; background:#ffffff0b; border-radius:18px; animation:rise .45s both; transition: border-color .3s, background .3s; }
+    .game.has-lucky { border-color: rgba(255, 215, 0, 0.28); background: linear-gradient(90deg, rgba(255, 215, 0, 0.05), rgba(255, 255, 255, 0.04)); }
     .game-label { color:#aeb5c7; font-size:10px; letter-spacing:.14em; font-weight:700; }
     .game-label strong { display:block; color:#f3f4fb; font-size:13px; letter-spacing:.06em; margin-top:4px; }
+    .lucky-badge { display: inline-block; margin-top: 5px; font-size: 9.5px; font-weight: 800; color: #171a21; background: linear-gradient(135deg, #ffe27c, #f5b820); border-radius: 5px; padding: 1.5px 5px; letter-spacing: 0; }
     .balls { display:flex; justify-content:flex-end; gap:clamp(5px,1.8vw,10px); }
     .ball { position:relative; overflow:hidden; width:clamp(34px,8vw,43px); aspect-ratio:1; border-radius:50%; display:grid; place-items:center; color:#171a21; font-weight:800; font-size:clamp(13px,3.4vw,16px); text-shadow:0 1px 0 #ffffff75; border:0; box-shadow:inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, inset 0 -1px 2px #0004, 0 5px 8px #0006, 0 10px 16px #0003; animation:pop .4s both; }
+    .ball.is-lucky { outline: 2.5px solid #ffe27c; outline-offset: 2px; box-shadow: inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, 0 0 16px rgba(255, 226, 124, 0.75); transform: scale(1.05); z-index: 2; animation: pop .4s both, luckyGlow 2.2s infinite ease-in-out; }
     .ball::before { content:""; position:absolute; width:48%; height:25%; left:17%; top:10%; border-radius:50%; background:linear-gradient(180deg,#ffffffed,#ffffff36); filter:blur(.5px); transform:rotate(-36deg); }
     .ball::after { content:""; position:absolute; inset:5% 8% 42% 8%; border-radius:50%; background:linear-gradient(165deg,#ffffff44,transparent 70%); pointer-events:none; }
     .c1{background:linear-gradient(145deg,#ffe27c,#f5b820)} .c2{background:linear-gradient(145deg,#a7d5ff,#56a5ed)} .c3{background:linear-gradient(145deg,#ffaaa4,#f2635f)} .c4{background:linear-gradient(145deg,#d1d3d9,#9299a7)} .c5{background:linear-gradient(145deg,#b9eaa8,#70c85a)}
     .actions { margin-top:22px; }
-    button { width:100%; min-height:58px; border:1px solid #ffffff65; border-radius:18px; color:white; font:inherit; font-size:16px; font-weight:720; letter-spacing:-.02em; cursor:pointer; background:linear-gradient(110deg,#8173ec,#a56bdc 55%,#db82bd); box-shadow:0 10px 30px #9b70e44a,inset 0 1px #ffffff70; transition:transform .2s,filter .2s,box-shadow .2s; }
-    button:hover { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 14px 36px #9b70e466,inset 0 1px #ffffff70; } button:active { transform:translateY(0) scale(.99); } button:focus-visible { outline:3px solid #fff; outline-offset:3px; }
+    #generate { width:100%; min-height:58px; border:1px solid #ffffff65; border-radius:18px; color:white; font:inherit; font-size:16px; font-weight:720; letter-spacing:-.02em; cursor:pointer; background:linear-gradient(110deg,#8173ec,#a56bdc 55%,#db82bd); box-shadow:0 10px 30px #9b70e44a,inset 0 1px #ffffff70; transition:transform .2s,filter .2s,box-shadow .2s; }
+    #generate:hover { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 14px 36px #9b70e466,inset 0 1px #ffffff70; } #generate:active { transform:translateY(0) scale(.99); } #generate:focus-visible { outline:3px solid #fff; outline-offset:3px; }
     .hint { display:flex; justify-content:center; align-items:center; gap:7px; margin:14px 0 0; color:#aeb3c3; font-size:11px; line-height:1.6; text-align:center; }
     .footer { text-align:center; margin:18px 0 0; color:#9096a9; font-size:11px; }
     @keyframes rise { from {opacity:0; transform:translateY(10px)} to {opacity:1;transform:translateY(0)} }
     @keyframes pop { from { opacity:0; transform:scale(.72) } to { opacity:1; transform:scale(1) } }
-    @media(max-width:440px) { body{padding:18px 12px}.topline{margin:0 3px 12px}.panel{border-radius:25px;padding:24px 16px}.game{grid-template-columns:62px 1fr;padding:11px 10px;gap:7px}.balls{gap:5px}.ball{width:min(8vw,36px)} }
+    @keyframes luckyGlow { 0%, 100% { outline-color: #ffe27c; box-shadow: inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, 0 0 14px rgba(255, 226, 124, 0.65); } 50% { outline-color: #fff4a3; box-shadow: inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, 0 0 22px rgba(255, 244, 163, 0.95); } }
+    @media(max-width:440px) { body{padding:18px 12px}.topline{margin:0 3px 12px}.panel{border-radius:25px;padding:22px 14px}.lucky-picker{padding:14px 12px}.lucky-picker-controls{flex-wrap:wrap}.input-wrap{width:100%;flex:auto}.lucky-btn-sub{flex:1}.game{grid-template-columns:62px 1fr;padding:11px 10px;gap:7px}.balls{gap:5px}.ball{width:min(8vw,36px)} }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important} }
