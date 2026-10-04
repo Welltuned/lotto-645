@@ -1,57 +1,798 @@
-:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; color: #f7f8fc; background: radial-gradient(ellipse at 12% 12%, #344c83 0, transparent 38%), radial-gradient(ellipse at 88% 24%, #55417a 0, transparent 35%), linear-gradient(150deg,#111a2a,#171725 58%,#242238); display: grid; place-items: center; padding: 36px 18px; overflow-x: hidden; }
-    body::before, body::after { content:""; position: fixed; width: 270px; height:270px; border-radius:50%; filter:blur(80px); opacity:.22; pointer-events:none; }
-    body::before { background:#5da9ff; left:-110px; bottom:8%; } body::after { background:#d985df; right:-120px; top:10%; }
-    .app { width:min(100%,700px); position:relative; }
-    .topline { display:flex; justify-content:space-between; align-items:center; margin:0 4px 18px; color:#d6d9e5; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
-    .brand { display:flex; gap:9px; align-items:center; font-weight:650; } .brand-icon { width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:#ffffff18;border:1px solid #ffffff24;font-size:15px; }
-    .live { font-size:11px; letter-spacing:.04em; color:#c7e8d7; background:#a4edc31c; border:1px solid #a4edc332; border-radius:30px;padding:7px 10px; }
-    .panel { border:1px solid #ffffff28; background:linear-gradient(145deg,#ffffff19,#ffffff08); backdrop-filter:blur(28px); -webkit-backdrop-filter:blur(28px); box-shadow:0 28px 80px #0509146e, inset 0 1px #ffffff20; border-radius:30px; padding:clamp(24px,6vw,44px); }
-    header { text-align:center; padding:4px 0 24px; }
-    .eyebrow { color:#c8c5fa; font-size:11px; letter-spacing:.2em; font-weight:700; }
-    h1 { margin:13px 0 10px; font-size:clamp(30px,7vw,43px); letter-spacing:-.055em; line-height:1.14; }
-    .subtitle { color:#c0c4d2; margin:0; font-size:14px; line-height:1.7; }
-    
-    .lucky-picker { margin: 0 0 20px; padding: 16px 18px; border: 1px solid #ffffff1c; background: #ffffff0a; border-radius: 18px; backdrop-filter: blur(10px); }
-    .lucky-picker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .lucky-picker-label { font-size: 13px; font-weight: 700; color: #f0f2fa; display: flex; align-items: center; gap: 6px; }
-    .star-icon { color: #ffd700; font-size: 14px; filter: drop-shadow(0 0 6px rgba(255,215,0,0.6)); }
-    .lucky-tag { font-size: 11px; font-weight: 700; color: #ffe27c; background: #ffe27c1a; border: 1px solid #ffe27c38; border-radius: 20px; padding: 3px 9px; letter-spacing: -.02em; }
-    .lucky-picker-controls { display: flex; gap: 8px; align-items: center; }
-    .input-wrap { flex: 1; min-width: 90px; }
-    #lucky-number { width: 100%; height: 42px; padding: 0 14px; background: rgba(14, 18, 28, 0.65); border: 1px solid #ffffff2b; border-radius: 12px; color: #fff; font-size: 15px; font-weight: 700; outline: none; transition: border-color .2s, box-shadow .2s; font-family: inherit; }
-    #lucky-number:focus { border-color: #a56bdc; box-shadow: 0 0 0 3px rgba(165,107,220,0.3); }
-    #lucky-number::placeholder { color: #767d93; font-weight: 500; font-size: 13px; }
-    #lucky-number::-webkit-inner-spin-button, #lucky-number::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    #lucky-number { -moz-appearance: textfield; }
-    .lucky-btn-sub { width: auto; min-height: 42px; height: 42px; padding: 0 14px; border: 1px solid #ffffff24; border-radius: 12px; background: #ffffff14; color: #e7e9f3; font-size: 12.5px; font-weight: 650; cursor: pointer; transition: transform .15s, background .2s, border-color .2s; white-space: nowrap; box-shadow: none; display: inline-flex; align-items: center; justify-content: center; }
-    .lucky-btn-sub:hover { transform: translateY(-1px); background: #ffffff22; border-color: #ffffff40; color: #fff; }
-    .lucky-btn-sub:active { transform: translateY(0); }
-    .lucky-btn-sub.clear { background: transparent; border-color: #ffffff18; color: #9aa1b5; }
-    .lucky-btn-sub.clear:hover { background: rgba(255, 90, 90, 0.14); border-color: rgba(255, 90, 90, 0.35); color: #ff9d9d; }
-    .lucky-guide { margin: 10px 0 0; color: #aeb3c3; font-size: 11px; line-height: 1.5; }
-    .lucky-guide strong { color: #ffe27c; font-weight: 700; }
+:root {
+  color-scheme: dark;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 
-    .results { display:grid; gap:10px; }
-    .game { display:grid; grid-template-columns:76px 1fr; align-items:center; gap:12px; padding:12px 14px; min-height:68px; border:1px solid #ffffff19; background:#ffffff0b; border-radius:18px; animation:rise .45s both; transition: border-color .3s, background .3s; }
-    .game.has-lucky { border-color: rgba(255, 215, 0, 0.28); background: linear-gradient(90deg, rgba(255, 215, 0, 0.05), rgba(255, 255, 255, 0.04)); }
-    .game-label { color:#aeb5c7; font-size:10px; letter-spacing:.14em; font-weight:700; }
-    .game-label strong { display:block; color:#f3f4fb; font-size:13px; letter-spacing:.06em; margin-top:4px; }
-    .lucky-badge { display: inline-block; margin-top: 5px; font-size: 9.5px; font-weight: 800; color: #171a21; background: linear-gradient(135deg, #ffe27c, #f5b820); border-radius: 5px; padding: 1.5px 5px; letter-spacing: 0; }
-    .balls { display:flex; justify-content:flex-end; gap:clamp(5px,1.8vw,10px); }
-    .ball { position:relative; overflow:hidden; width:clamp(34px,8vw,43px); aspect-ratio:1; border-radius:50%; display:grid; place-items:center; color:#171a21; font-weight:800; font-size:clamp(13px,3.4vw,16px); text-shadow:0 1px 0 #ffffff75; border:0; box-shadow:inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, inset 0 -1px 2px #0004, 0 5px 8px #0006, 0 10px 16px #0003; animation:pop .4s both; }
-    .ball.is-lucky { outline: 2.5px solid #ffe27c; outline-offset: 2px; box-shadow: inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, 0 0 16px rgba(255, 226, 124, 0.75); transform: scale(1.05); z-index: 2; animation: pop .4s both, luckyGlow 2.2s infinite ease-in-out; }
-    .ball::before { content:""; position:absolute; width:48%; height:25%; left:17%; top:10%; border-radius:50%; background:linear-gradient(180deg,#ffffffed,#ffffff36); filter:blur(.5px); transform:rotate(-36deg); }
-    .ball::after { content:""; position:absolute; inset:5% 8% 42% 8%; border-radius:50%; background:linear-gradient(165deg,#ffffff44,transparent 70%); pointer-events:none; }
-    .c1{background:linear-gradient(145deg,#ffe27c,#f5b820)} .c2{background:linear-gradient(145deg,#a7d5ff,#56a5ed)} .c3{background:linear-gradient(145deg,#ffaaa4,#f2635f)} .c4{background:linear-gradient(145deg,#d1d3d9,#9299a7)} .c5{background:linear-gradient(145deg,#b9eaa8,#70c85a)}
-    .actions { margin-top:22px; }
-    #generate { width:100%; min-height:58px; border:1px solid #ffffff65; border-radius:18px; color:white; font:inherit; font-size:16px; font-weight:720; letter-spacing:-.02em; cursor:pointer; background:linear-gradient(110deg,#8173ec,#a56bdc 55%,#db82bd); box-shadow:0 10px 30px #9b70e44a,inset 0 1px #ffffff70; transition:transform .2s,filter .2s,box-shadow .2s; }
-    #generate:hover { transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 14px 36px #9b70e466,inset 0 1px #ffffff70; } #generate:active { transform:translateY(0) scale(.99); } #generate:focus-visible { outline:3px solid #fff; outline-offset:3px; }
-    .hint { display:flex; justify-content:center; align-items:center; gap:7px; margin:14px 0 0; color:#aeb3c3; font-size:11px; line-height:1.6; text-align:center; }
-    .footer { text-align:center; margin:18px 0 0; color:#9096a9; font-size:11px; }
-    @keyframes rise { from {opacity:0; transform:translateY(10px)} to {opacity:1;transform:translateY(0)} }
-    @keyframes pop { from { opacity:0; transform:scale(.72) } to { opacity:1; transform:scale(1) } }
-    @keyframes luckyGlow { 0%, 100% { outline-color: #ffe27c; box-shadow: inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, 0 0 14px rgba(255, 226, 124, 0.65); } 50% { outline-color: #fff4a3; box-shadow: inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, 0 0 22px rgba(255, 244, 163, 0.95); } }
-    @media(max-width:440px) { body{padding:18px 12px}.topline{margin:0 3px 12px}.panel{border-radius:25px;padding:22px 14px}.lucky-picker{padding:14px 12px}.lucky-picker-controls{flex-wrap:wrap}.input-wrap{width:100%;flex:auto}.lucky-btn-sub{flex:1}.game{grid-template-columns:62px 1fr;padding:11px 10px;gap:7px}.balls{gap:5px}.ball{width:min(8vw,36px)} }
-    @media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important} }
+  --body-color: #f7f8fc;
+  --body-bg: radial-gradient(ellipse at 12% 12%, #344c83 0, transparent 38%), radial-gradient(ellipse at 88% 24%, #55417a 0, transparent 35%), linear-gradient(150deg, #111a2a, #171725 58%, #242238);
+  --blob-left: #5da9ff;
+  --blob-right: #d985df;
+  --blob-opacity: 0.22;
+
+  --topline-color: #d6d9e5;
+  --brand-icon-bg: #ffffff18;
+  --brand-icon-border: #ffffff24;
+  --brand-icon-color: inherit;
+
+  --theme-toggle-bg: #ffffff14;
+  --theme-toggle-border: #ffffff26;
+  --theme-toggle-color: #e2e5f1;
+  --theme-toggle-hover-bg: #ffffff24;
+  --theme-toggle-hover-border: #ffffff44;
+  --theme-toggle-hover-color: #ffffff;
+
+  --live-color: #c7e8d7;
+  --live-bg: #a4edc31c;
+  --live-border: #a4edc332;
+
+  --panel-bg: linear-gradient(145deg, #ffffff19, #ffffff08);
+  --panel-border: #ffffff28;
+  --panel-shadow: 0 28px 80px #0509146e;
+  --panel-inner-shadow: inset 0 1px #ffffff20;
+
+  --eyebrow-color: #c8c5fa;
+  --title-color: #f7f8fc;
+  --subtitle-color: #c0c4d2;
+
+  --lucky-picker-bg: #ffffff0a;
+  --lucky-picker-border: #ffffff1c;
+  --lucky-picker-label: #f0f2fa;
+  --lucky-tag-color: #ffe27c;
+  --lucky-tag-bg: #ffe27c1a;
+  --lucky-tag-border: #ffe27c38;
+  --lucky-input-bg: rgba(14, 18, 28, 0.65);
+  --lucky-input-border: #ffffff2b;
+  --lucky-input-color: #ffffff;
+  --lucky-input-placeholder: #767d93;
+  --lucky-input-focus-border: #a56bdc;
+  --lucky-input-focus-shadow: 0 0 0 3px rgba(165, 107, 220, 0.3);
+
+  --lucky-btn-sub-bg: #ffffff14;
+  --lucky-btn-sub-border: #ffffff24;
+  --lucky-btn-sub-color: #e7e9f3;
+  --lucky-btn-sub-hover-bg: #ffffff22;
+  --lucky-btn-sub-hover-border: #ffffff40;
+  --lucky-btn-sub-hover-color: #ffffff;
+
+  --lucky-clear-border: #ffffff18;
+  --lucky-clear-color: #9aa1b5;
+  --lucky-clear-hover-bg: rgba(255, 90, 90, 0.14);
+  --lucky-clear-hover-border: rgba(255, 90, 90, 0.35);
+  --lucky-clear-hover-color: #ff9d9d;
+
+  --lucky-guide-color: #aeb3c3;
+  --lucky-guide-strong: #ffe27c;
+
+  --game-bg: #ffffff0b;
+  --game-border: #ffffff19;
+  --game-lucky-bg: linear-gradient(90deg, rgba(255, 215, 0, 0.05), rgba(255, 255, 255, 0.04));
+  --game-lucky-border: rgba(255, 215, 0, 0.28);
+  --game-label-color: #aeb5c7;
+  --game-label-strong: #f3f4fb;
+
+  --lucky-badge-color: #171a21;
+  --lucky-badge-bg: linear-gradient(135deg, #ffe27c, #f5b820);
+
+  --ball-shadow: inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0003, inset 0 -1px 2px #0004, 0 5px 8px #0006, 0 10px 16px #0003;
+  --ball-lucky-outline: #ffe27c;
+  --ball-lucky-shadow: 0 0 16px rgba(255, 226, 124, 0.75);
+  --ball-lucky-pulse-outline: #fff4a3;
+  --ball-lucky-pulse-shadow: 0 0 22px rgba(255, 244, 163, 0.95);
+
+  --generate-bg: linear-gradient(110deg, #8173ec, #a56bdc 55%, #db82bd);
+  --generate-border: #ffffff65;
+  --generate-shadow: 0 10px 30px #9b70e44a, inset 0 1px #ffffff70;
+  --generate-hover-shadow: 0 14px 36px #9b70e466, inset 0 1px #ffffff70;
+
+  --hint-color: #aeb3c3;
+  --footer-color: #9096a9;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --body-color: #1a2035;
+  --body-bg: radial-gradient(ellipse at 12% 12%, #cce0ff 0, transparent 42%), radial-gradient(ellipse at 88% 20%, #f0d6fc 0, transparent 38%), linear-gradient(150deg, #edf2fa, #f7f9fd 54%, #e9eefa);
+  --blob-left: #70aeff;
+  --blob-right: #f092ea;
+  --blob-opacity: 0.28;
+
+  --topline-color: #475569;
+  --brand-icon-bg: rgba(0, 0, 0, 0.05);
+  --brand-icon-border: rgba(0, 0, 0, 0.08);
+  --brand-icon-color: #6366f1;
+
+  --theme-toggle-bg: rgba(255, 255, 255, 0.88);
+  --theme-toggle-border: rgba(0, 0, 0, 0.12);
+  --theme-toggle-color: #334155;
+  --theme-toggle-hover-bg: #ffffff;
+  --theme-toggle-hover-border: rgba(0, 0, 0, 0.22);
+  --theme-toggle-hover-color: #0f172a;
+
+  --live-color: #0e7845;
+  --live-bg: rgba(16, 185, 129, 0.12);
+  --live-border: rgba(16, 185, 129, 0.28);
+
+  --panel-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72));
+  --panel-border: rgba(255, 255, 255, 0.95);
+  --panel-shadow: 0 24px 60px rgba(58, 73, 107, 0.11), 0 2px 8px rgba(0, 0, 0, 0.03);
+  --panel-inner-shadow: inset 0 1px #ffffff;
+
+  --eyebrow-color: #6366f1;
+  --title-color: #0f172a;
+  --subtitle-color: #475569;
+
+  --lucky-picker-bg: rgba(255, 255, 255, 0.65);
+  --lucky-picker-border: rgba(0, 0, 0, 0.08);
+  --lucky-picker-label: #1e293b;
+  --lucky-tag-color: #854d0e;
+  --lucky-tag-bg: #fef3c7;
+  --lucky-tag-border: #fde68a;
+  --lucky-input-bg: #ffffff;
+  --lucky-input-border: rgba(0, 0, 0, 0.14);
+  --lucky-input-color: #0f172a;
+  --lucky-input-placeholder: #94a3b8;
+  --lucky-input-focus-border: #8b5cf6;
+  --lucky-input-focus-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+
+  --lucky-btn-sub-bg: rgba(255, 255, 255, 0.9);
+  --lucky-btn-sub-border: rgba(0, 0, 0, 0.12);
+  --lucky-btn-sub-color: #334155;
+  --lucky-btn-sub-hover-bg: #ffffff;
+  --lucky-btn-sub-hover-border: rgba(0, 0, 0, 0.22);
+  --lucky-btn-sub-hover-color: #0f172a;
+
+  --lucky-clear-border: rgba(0, 0, 0, 0.08);
+  --lucky-clear-color: #64748b;
+  --lucky-clear-hover-bg: rgba(239, 68, 68, 0.1);
+  --lucky-clear-hover-border: rgba(239, 68, 68, 0.25);
+  --lucky-clear-hover-color: #dc2626;
+
+  --lucky-guide-color: #64748b;
+  --lucky-guide-strong: #b45309;
+
+  --game-bg: rgba(255, 255, 255, 0.72);
+  --game-border: rgba(0, 0, 0, 0.06);
+  --game-lucky-bg: linear-gradient(90deg, rgba(254, 243, 199, 0.55), rgba(255, 255, 255, 0.85));
+  --game-lucky-border: rgba(234, 179, 8, 0.45);
+  --game-label-color: #64748b;
+  --game-label-strong: #0f172a;
+
+  --lucky-badge-color: #78350f;
+  --lucky-badge-bg: linear-gradient(135deg, #fde047, #f59e0b);
+
+  --ball-shadow: inset 2px 3px 5px #ffffffbd, inset -5px -7px 9px #0002, inset 0 -1px 2px #0003, 0 4px 10px rgba(0, 0, 0, 0.16), 0 8px 18px rgba(0, 0, 0, 0.08);
+  --ball-lucky-outline: #d97706;
+  --ball-lucky-shadow: 0 0 16px rgba(245, 158, 11, 0.65);
+  --ball-lucky-pulse-outline: #f59e0b;
+  --ball-lucky-pulse-shadow: 0 0 22px rgba(245, 158, 11, 0.85);
+
+  --generate-bg: linear-gradient(110deg, #685beb, #9254db 55%, #d664a7);
+  --generate-border: rgba(255, 255, 255, 0.65);
+  --generate-shadow: 0 10px 28px rgba(104, 91, 235, 0.38), inset 0 1px #ffffff70;
+  --generate-hover-shadow: 0 14px 34px rgba(104, 91, 235, 0.5), inset 0 1px #ffffff70;
+
+  --hint-color: #64748b;
+  --footer-color: #64748b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--body-color);
+  background: var(--body-bg);
+  display: grid;
+  place-items: center;
+  padding: 36px 18px;
+  overflow-x: hidden;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: var(--blob-opacity);
+  pointer-events: none;
+  transition: background 0.35s ease, opacity 0.35s ease;
+}
+
+body::before {
+  background: var(--blob-left);
+  left: -110px;
+  bottom: 8%;
+}
+
+body::after {
+  background: var(--blob-right);
+  right: -120px;
+  top: 10%;
+}
+
+.app {
+  width: min(100%, 700px);
+  position: relative;
+}
+
+.topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 4px 18px;
+  color: var(--topline-color);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.brand {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  font-weight: 650;
+}
+
+.brand-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: var(--brand-icon-bg);
+  border: 1px solid var(--brand-icon-border);
+  color: var(--brand-icon-color);
+  font-size: 15px;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.topline-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 31px;
+  padding: 0 11px;
+  background: var(--theme-toggle-bg);
+  border: 1px solid var(--theme-toggle-border);
+  border-radius: 20px;
+  color: var(--theme-toggle-color);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  background: var(--theme-toggle-hover-bg);
+  border-color: var(--theme-toggle-hover-border);
+  color: var(--theme-toggle-hover-color);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.09);
+}
+
+.theme-toggle:active {
+  transform: translateY(0);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid #8173ec;
+  outline-offset: 2px;
+}
+
+.theme-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-toggle:hover .theme-icon {
+  transform: rotate(18deg) scale(1.15);
+}
+
+.sun-icon {
+  display: none;
+}
+
+.moon-icon {
+  display: inline-block;
+}
+
+[data-theme="light"] .sun-icon {
+  display: inline-block;
+}
+
+[data-theme="light"] .moon-icon {
+  display: none;
+}
+
+.theme-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.live {
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--live-color);
+  background: var(--live-bg);
+  border: 1px solid var(--live-border);
+  border-radius: 30px;
+  padding: 7px 10px;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  white-space: nowrap;
+}
+
+.panel {
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow: var(--panel-shadow), var(--panel-inner-shadow);
+  border-radius: 30px;
+  padding: clamp(24px, 6vw, 44px);
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+header {
+  text-align: center;
+  padding: 4px 0 24px;
+}
+
+.eyebrow {
+  color: var(--eyebrow-color);
+  font-size: 11px;
+  letter-spacing: .2em;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+h1 {
+  margin: 13px 0 10px;
+  font-size: clamp(30px, 7vw, 43px);
+  letter-spacing: -.055em;
+  line-height: 1.14;
+  color: var(--title-color);
+  transition: color 0.3s ease;
+}
+
+.subtitle {
+  color: var(--subtitle-color);
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  transition: color 0.3s ease;
+}
+
+/* Lucky picker section */
+.lucky-picker {
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  border: 1px solid var(--lucky-picker-border);
+  background: var(--lucky-picker-bg);
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lucky-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.lucky-picker-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--lucky-picker-label);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease;
+}
+
+.star-icon {
+  color: #ffd700;
+  font-size: 14px;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+}
+
+.lucky-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--lucky-tag-color);
+  background: var(--lucky-tag-bg);
+  border: 1px solid var(--lucky-tag-border);
+  border-radius: 20px;
+  padding: 3px 9px;
+  letter-spacing: -.02em;
+  transition: all 0.3s ease;
+}
+
+.lucky-picker-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-wrap {
+  flex: 1;
+  min-width: 90px;
+}
+
+#lucky-number {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  background: var(--lucky-input-bg);
+  border: 1px solid var(--lucky-input-border);
+  border-radius: 12px;
+  color: var(--lucky-input-color);
+  font-size: 15px;
+  font-weight: 700;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s, background .3s, color .3s;
+  font-family: inherit;
+}
+
+#lucky-number:focus {
+  border-color: var(--lucky-input-focus-border);
+  box-shadow: var(--lucky-input-focus-shadow);
+}
+
+#lucky-number::placeholder {
+  color: var(--lucky-input-placeholder);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+#lucky-number::-webkit-inner-spin-button,
+#lucky-number::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#lucky-number {
+  -moz-appearance: textfield;
+}
+
+.lucky-btn-sub {
+  width: auto;
+  min-height: 42px;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--lucky-btn-sub-border);
+  border-radius: 12px;
+  background: var(--lucky-btn-sub-bg);
+  color: var(--lucky-btn-sub-color);
+  font-size: 12.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform .15s, background .2s, border-color .2s, color .2s;
+  white-space: nowrap;
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lucky-btn-sub:hover {
+  transform: translateY(-1px);
+  background: var(--lucky-btn-sub-hover-bg);
+  border-color: var(--lucky-btn-sub-hover-border);
+  color: var(--lucky-btn-sub-hover-text);
+}
+
+.lucky-btn-sub:active {
+  transform: translateY(0);
+}
+
+.lucky-btn-sub.clear {
+  background: transparent;
+  border-color: var(--lucky-clear-border);
+  color: var(--lucky-clear-color);
+}
+
+.lucky-btn-sub.clear:hover {
+  background: var(--lucky-clear-hover-bg);
+  border-color: var(--lucky-clear-hover-border);
+  color: var(--lucky-clear-hover-color);
+}
+
+.lucky-guide {
+  margin: 10px 0 0;
+  color: var(--lucky-guide-color);
+  font-size: 11px;
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+.lucky-guide strong {
+  color: var(--lucky-guide-strong);
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+/* Results section */
+.results {
+  display: grid;
+  gap: 10px;
+}
+
+.game {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  min-height: 68px;
+  border: 1px solid var(--game-border);
+  background: var(--game-bg);
+  border-radius: 18px;
+  animation: rise .45s both;
+  transition: border-color .3s, background .3s, box-shadow .3s;
+}
+
+.game.has-lucky {
+  border-color: var(--game-lucky-border);
+  background: var(--game-lucky-bg);
+}
+
+.game-label {
+  color: var(--game-label-color);
+  font-size: 10px;
+  letter-spacing: .14em;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.game-label strong {
+  display: block;
+  color: var(--game-label-strong);
+  font-size: 13px;
+  letter-spacing: .06em;
+  margin-top: 4px;
+  transition: color 0.3s ease;
+}
+
+.lucky-badge {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--lucky-badge-color);
+  background: var(--lucky-badge-bg);
+  border-radius: 5px;
+  padding: 1.5px 5px;
+  letter-spacing: 0;
+  transition: all 0.3s ease;
+}
+
+.balls {
+  display: flex;
+  justify-content: flex-end;
+  gap: clamp(5px, 1.8vw, 10px);
+}
+
+.ball {
+  position: relative;
+  overflow: hidden;
+  width: clamp(34px, 8vw, 43px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #171a21;
+  font-weight: 800;
+  font-size: clamp(13px, 3.4vw, 16px);
+  text-shadow: 0 1px 0 #ffffff75;
+  border: 0;
+  box-shadow: var(--ball-shadow);
+  animation: pop .4s both;
+  transition: box-shadow 0.3s ease;
+}
+
+.ball.is-lucky {
+  outline: 2.5px solid var(--ball-lucky-outline);
+  outline-offset: 2px;
+  box-shadow: var(--ball-shadow), var(--ball-lucky-shadow);
+  transform: scale(1.05);
+  z-index: 2;
+  animation: pop .4s both, luckyGlow 2.2s infinite ease-in-out;
+}
+
+.ball::before {
+  content: "";
+  position: absolute;
+  width: 48%;
+  height: 25%;
+  left: 17%;
+  top: 10%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffffffed, #ffffff36);
+  filter: blur(.5px);
+  transform: rotate(-36deg);
+}
+
+.ball::after {
+  content: "";
+  position: absolute;
+  inset: 5% 8% 42% 8%;
+  border-radius: 50%;
+  background: linear-gradient(165deg, #ffffff44, transparent 70%);
+  pointer-events: none;
+}
+
+.c1 { background: linear-gradient(145deg, #ffe27c, #f5b820); }
+.c2 { background: linear-gradient(145deg, #a7d5ff, #56a5ed); }
+.c3 { background: linear-gradient(145deg, #ffaaa4, #f2635f); }
+.c4 { background: linear-gradient(145deg, #d1d3d9, #9299a7); }
+.c5 { background: linear-gradient(145deg, #b9eaa8, #70c85a); }
+
+.actions {
+  margin-top: 22px;
+}
+
+#generate {
+  width: 100%;
+  min-height: 58px;
+  border: 1px solid var(--generate-border);
+  border-radius: 18px;
+  color: white;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 720;
+  letter-spacing: -.02em;
+  cursor: pointer;
+  background: var(--generate-bg);
+  box-shadow: var(--generate-shadow);
+  transition: transform .2s, filter .2s, box-shadow .2s;
+}
+
+#generate:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: var(--generate-hover-shadow);
+}
+
+#generate:active {
+  transform: translateY(0) scale(.99);
+}
+
+#generate:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.hint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin: 14px 0 0;
+  color: var(--hint-color);
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.footer {
+  text-align: center;
+  margin: 18px 0 0;
+  color: var(--footer-color);
+  font-size: 11px;
+  transition: color 0.3s ease;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(.72);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes luckyGlow {
+  0%, 100% {
+    outline-color: var(--ball-lucky-outline);
+    box-shadow: var(--ball-shadow), var(--ball-lucky-shadow);
+  }
+  50% {
+    outline-color: var(--ball-lucky-pulse-outline);
+    box-shadow: var(--ball-shadow), var(--ball-lucky-pulse-shadow);
+  }
+}
+
+@media(max-width: 440px) {
+  body {
+    padding: 18px 12px;
+  }
+  .topline {
+    margin: 0 3px 12px;
+  }
+  .topline-controls {
+    gap: 6px;
+  }
+  .theme-toggle {
+    height: 28px;
+    padding: 0 8px;
+    font-size: 10.5px;
+    gap: 4px;
+  }
+  .theme-mode-word {
+    display: none;
+  }
+  .panel {
+    border-radius: 25px;
+    padding: 22px 14px;
+  }
+  .lucky-picker {
+    padding: 14px 12px;
+  }
+  .lucky-picker-controls {
+    flex-wrap: wrap;
+  }
+  .input-wrap {
+    width: 100%;
+    flex: auto;
+  }
+  .lucky-btn-sub {
+    flex: 1;
+  }
+  .game {
+    grid-template-columns: 62px 1fr;
+    padding: 11px 10px;
+    gap: 7px;
+  }
+  .balls {
+    gap: 5px;
+  }
+  .ball {
+    width: min(8vw, 36px);
+  }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}

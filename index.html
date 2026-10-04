@@ -5,11 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10141f">
   <title>오늘의 행운 번호 · Lotto 6/45</title>
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem('lotto_theme');
+        var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        var theme = savedTheme ? savedTheme : (prefersLight ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+          meta.setAttribute('content', theme === 'light' ? '#edf1fa' : '#10141f');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="app">
-    <div class="topline"><div class="brand"><span class="brand-icon">✦</span> LUCKY DRAW</div><span class="live">● &nbsp;LOTTO 6/45</span></div>
+    <div class="topline">
+      <div class="brand"><span class="brand-icon">✦</span> LUCKY DRAW</div>
+      <div class="topline-controls">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="화이트 모드로 전환" title="화이트 모드로 전환">
+          <svg class="theme-icon moon-icon" viewBox="0 0 24 24" width="14" height="14" fill="#ffe27c" stroke="#ffe27c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="theme-icon sun-icon" viewBox="0 0 24 24" width="14" height="14" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <span class="theme-label"><span class="theme-mode-name">다크</span><span class="theme-mode-word">모드</span></span>
+        </button>
+        <span class="live">● &nbsp;LOTTO 6/45</span>
+      </div>
+    </div>
     <section class="panel" aria-labelledby="title">
       <header>
         <div class="eyebrow">A LITTLE LUCK, JUST FOR YOU</div>
